@@ -1,0 +1,8 @@
+{% extends "layout.html" %}
+{% block content %}
+    <h1>Admin Panel - Resolve Disputes</h1>
+    <p>Functionality to confirm or reject matches would be built here.</p>
+    {% for match in matches %}
+        <p>Match ID #{{ match.id }} (Lost #{{ match.lost_item_id }}, Found #{{ match.found_item_id }}) - Score: {{ "%.2f"|format(match.similarity_score) }}</p>
+    {% endfor %}
+{% endblock %}

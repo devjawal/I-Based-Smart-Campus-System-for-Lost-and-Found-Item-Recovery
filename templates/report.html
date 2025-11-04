@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+{% block content %}
+    <h1>Report an Item</h1>
+    <form method="POST" enctype="multipart/form-data" class="report-form">
+        <label for="item_type">Is this item...</label>
+        <select name="item_type" id="item_type" required>
+            <option value="lost">I Lost</option>
+            <option value="found">I Found</option>
+        </select>
+
+        <label for="title">Item Title (e.g., "Black Steel Water Bottle")</label>
+        <input type="text" name="title" required>
+        
+        <label for="description">Description (add any details like brand, color, etc.)</label>
+        <textarea name="description" rows="4"></textarea>
+        
+        <label for="location_landmark" id="landmark_label" style="display:none;">Location / Landmark (e.g., "Near Library Cafe")</label>
+        <input type="text" name="location_landmark" id="location_landmark" style="display:none;">
+
+        <label for="image">Upload a Photo</label>
+        <input type="file" name="image" accept="image/*" required>
+        
+        <input type="hidden" name="latitude" id="latitude">
+        <input type="hidden" name="longitude" id="longitude">
+
+        <button type="submit">Submit Report</button>
+    </form>
+
+    <script>
+        document.getElementById('item_type').addEventListener('change', function() {
+            const landmarkLabel = document.getElementById('landmark_label');
+            const landmarkInput = document.getElementById('location_landmark');
+            if (this.value === 'found') {
+                landmarkLabel.style.display = 'block';
+                landmarkInput.style.display = 'block';
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(function(position) {
+                        document.getElementById('latitude').value = position.coords.latitude;
+                        document.getElementById('longitude').value = position.coords.longitude;
+                    });
+                }
+            } else {
+                landmarkLabel.style.display = 'none';
+                landmarkInput.style.display = 'none';
+            }
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+{% block content %}
+    <h1>Dashboard</h1>
+    
+    {% if notifications %}
+    <div class="notifications">
+        <h2>🔔 You have new potential matches for your lost items!</h2>
+        <ul>
+        {% for match in notifications %}
+            <li>A 'found' item matches your lost item #{{ match.lost_item_id }} with {{ "%.2f"|format(match.similarity_score * 100) }}% similarity.</li>
+        {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    <div class="item-columns">
+        <div class="column">
+            <h2>Lost Items</h2>
+            {% for item in lost_items %}
+            <div class="item-card">
+                <img src="{{ url_for('uploaded_file', filename=item.image_file) }}">
+                <h3>{{ item.title }}</h3>
+                <p>{{ item.description }}</p>
+                <small>Reported on: {{ item.timestamp.strftime('%Y-%m-%d') }}</small>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="column">
+            <h2>Found Items</h2>
+            {% for item in found_items %}
+            <div class="item-card">
+                <img src="{{ url_for('uploaded_file', filename=item.image_file) }}">
+                <h3>{{ item.title }}</h3>
+                <p>{{ item.description }}</p>
+                <small>Found on: {{ item.timestamp.strftime('%Y-%m-%d') }}</small>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

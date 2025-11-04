@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+{% block content %}
+    <h1>Admin Dashboard</h1>
+
+    <div class="admin-section">
+        <h2>All Users</h2>
+        <table>
+            <thead><tr><th>ID</th><th>Username</th><th>Phone Number</th><th>Coins</th></tr></thead>
+            <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.phone_number }}</td>
+                    <td>{{ user.coins }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="admin-section">
+        <h2>Item Galleries</h2>
+        <div class="item-columns">
+            <div class="column">
+                <h3>All Lost Items</h3>
+                {% for item in lost_items %}
+                <div class="item-card">
+                    <img src="{{ url_for('uploaded_file', filename=item.image_file) }}">
+                    <h4>{{ item.title }}</h4>
+                    <p>Status: <span class="status-{{item.status}}">{{ item.status }}</span></p>
+                </div>
+                {% else %}<p>No lost items in the system.</p>{% endfor %}
+            </div>
+            <div class="column">
+                <h3>All Found Items</h3>
+                {% for item in found_items %}
+                <div class="item-card">
+                    <img src="{{ url_for('uploaded_file', filename=item.image_file) }}">
+                    <h4>{{ item.title }}</h4>
+                    <p>Status: <span class="status-{{item.status}}">{{ item.status }}</span></p>
+                </div>
+                {% else %}<p>No found items in the system.</p>{% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

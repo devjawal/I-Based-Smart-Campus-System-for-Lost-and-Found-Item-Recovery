@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+{% block content %}
+    <h1>My Item History</h1>
+    <p>This page shows all your items that have been successfully returned.</p>
+    <div class="item-columns">
+        <div class="column">
+            <h2>Returned Lost Items</h2>
+            {% for item in items if item.item_type == 'lost' %}
+            <div class="item-card returned">
+                <img src="{{ url_for('uploaded_file', filename=item.image_file) }}">
+                <h3>{{ item.title }}</h3>
+                <p>Status: <span class="status-returned">{{ item.status }}</span></p>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="column">
+            <h2>Returned Found Items</h2>
+            {% for item in items if item.item_type == 'found' %}
+            <div class="item-card returned">
+                <img src="{{ url_for('uploaded_file', filename=item.image_file) }}">
+                <h3>{{ item.title }}</h3>
+                <p>Status: <span class="status-returned">{{ item.status }}</span></p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

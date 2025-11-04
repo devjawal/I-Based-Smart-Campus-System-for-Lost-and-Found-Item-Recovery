@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+{% block content %}
+    <h1>My Dashboard</h1>
+    
+    {% if notifications %}
+    <div class="notifications">
+        <h2>🔔 Potential Matches Found!</h2>
+        {% for match, found_item, finder in notifications %}
+            <div class="notification-card">
+                <p>Your lost item "<b>{{ found_item.title }}</b>" has a potential match!</p>
+                <ul>
+                    <li><b>Similarity Score:</b> {{ "%.1f"|format(match.similarity_score * 100) }}%</li>
+                    <li><b>Found By:</b> {{ finder.username }}</li>
+                    <li><b>Finder's Contact:</b> {{ finder.phone_number }}</li>
+                    <li><b>Found Location:</b> {{ found_item.location_landmark or 'Not specified' }}</li>
+                </ul>
+                <form action="{{ url_for('complete_return', match_id=match.id) }}" method="POST">
+                    <button type="submit" class="btn-return">Mark as Returned & Award Coins</button>
+                </form>
+            </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="item-columns">
+        <div class="column">
+            <h2>My Active Lost Items</h2>
+            {% for item in lost_items %}
+            <div class="item-card">
+                <img src="{{ url_for('uploaded_file', filename=item.image_file) }}">
+                <h3>{{ item.title }}</h3>
+            </div>
+            {% else %}<p>You have no active lost items.</p>{% endfor %}
+        </div>
+        <div class="column">
+            <h2>My Active Found Items</h2>
+            {% for item in found_items %}
+            <div class="item-card">
+                <img src="{{ url_for('uploaded_file', filename=item.image_file) }}">
+                <h3>{{ item.title }}</h3>
+            </div>
+            {% else %}<p>You have not reported any active found items.</p>{% endfor %}
+        </div>
+    </div>
+{% endblock %}

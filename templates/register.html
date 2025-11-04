@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% block content %}
+    <h1>Register New Account</h1>
+    <form method="POST" class="auth-form">
+        <label for="username">Username</label>
+        <input type="text" name="username" required>
+
+        <label for="phone_number">Phone Number (for item recovery)</label>
+        <input type="text" name="phone_number" required>
+        
+        <label for="password">Password</label>
+        <input type="password" name="password" required>
+        
+        <button type="submit">Register</button>
+    </form>
+{% endblock %}
